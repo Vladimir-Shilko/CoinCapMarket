@@ -2,14 +2,17 @@
 import { useQuery } from 'react-query';
 import { fetchCoinDetails } from '../services/api';
 import { CoinData } from '../utils/types';
+import { useParams } from 'react-router-dom';
 // import PriceChart from '../Components/PriceChart/PriceChart';
 import Loader from '../Components/Loader';
 import ErrorMessage from '../Components/ErrorMessage';
+import React from "react";
 
 const CoinDetailPage: React.FC = () => {
     // const router = useRouter();
     // const { symbol } = router.query;
-    const symbol: string = 'bitcoin'
+    // const symbol: string = 'bitcoin'
+    const { symbol } = useParams();
     const { data: coin, isLoading, error } = useQuery<CoinData>(['coin', symbol], () => fetchCoinDetails(symbol as string), {
         enabled: !!symbol,
     });

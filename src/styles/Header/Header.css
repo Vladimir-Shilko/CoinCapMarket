@@ -1,0 +1,18 @@
+.popularCoin {
+  display: inline;
+  justify-content: center;
+  align-items: center;
+  margin: 0 10px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  background-color: #ffffff;
+  color: #000;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.popularCoin:hover {
+  background-color: #3140a1;
+    color: #ffffff;
+}
