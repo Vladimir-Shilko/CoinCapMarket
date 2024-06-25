@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Table} from 'antd';
 // import { ColumnsType } from 'antd/es/table';
-import { CoinData } from '../utils/types'
+import {CoinData, portfolioCoin} from '../utils/types'
 import Button from './Button';
+import Modal from './Modal';
 //write custom ColumnsType
 interface ColumnsType<T> {
     title: string;
@@ -26,7 +27,10 @@ const CoinTable: React.FC<CoinTableProps> = ({ coins, onAddToPortfolio }) => {
         { title: 'Действия', key: 'action', render: (text, record) => <Button onClick={() => onAddToPortfolio(record)}>Add</Button> },
     ];
 
-    return <Table columns={columns} dataSource={coins} pagination={{ pageSize: 10 }} />;
+    return <>
+        <Table columns={columns} dataSource={coins} pagination={{ pageSize: 10 }} />;
+
+    </>;
 };
 
 export default CoinTable;

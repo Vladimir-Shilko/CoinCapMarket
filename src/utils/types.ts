@@ -15,7 +15,7 @@ export interface CoinData {
     logoUrl: string;
 }
 export interface portfolioCoin {
-    uniqueId: string;
+    uniqueId?: string;
     id: string;
     amount: number;
     priceUsd: number;

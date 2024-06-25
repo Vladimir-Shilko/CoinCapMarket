@@ -1,11 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import {useQuery} from "react-query";
-import { Modal } from 'antd';
 //import css file
 import '../../styles/portfolio.css';
 import {fetchPortfolioValue} from "../../services/api";
 import {CoinData, portfolioCoin} from "../../utils/types";
-
+import Modal from '../Modal'
 
 const PortfolioValue: React.FC = () => {
     const [isModalVisible, setIsModalVisible] = useState(false);
@@ -74,7 +73,7 @@ const PortfolioValue: React.FC = () => {
             <div className='portfolio' onClick={handleClick}>
                 Портфель: {portfolioValue} USD {(isLoading)? '...' : `${diff} (${percentageChange}%)` }
             </div>
-            <Modal title="Портфель"  open={isModalVisible} onCancel={handleCancel} onOk={handleCancel}>
+            <Modal title={'Портфель'} open={isModalVisible} onClose={handleCancel} >
                 <ul>
                     {portfolio.map((coin: portfolioCoin ) => (
                         <li key={coin.symbol}>{coin.symbol}: {coin.amount} монет, купленных по цене {coin.priceUsd}
@@ -88,6 +87,21 @@ const PortfolioValue: React.FC = () => {
                     ))}
                 </ul>
             </Modal>
+
+            {/*<Modal title="Портфель"  open={isModalVisible} onCancel={handleCancel} onOk={handleCancel}>*/}
+            {/*    <ul>*/}
+            {/*        {portfolio.map((coin: portfolioCoin ) => (*/}
+            {/*            <li key={coin.symbol}>{coin.symbol}: {coin.amount} монет, купленных по цене {coin.priceUsd}*/}
+            {/*                <button onClick={() => {*/}
+            {/*                    //delete coin from portfolio*/}
+            {/*                    const newPortfolio : portfolioCoin[] = portfolio.filter((c: portfolioCoin) => c.uniqueId !== coin.uniqueId);*/}
+            {/*                    localStorage.setItem('portfolio', JSON.stringify(newPortfolio));*/}
+            {/*                    window.location.reload();*/}
+            {/*                }}>Удалить</button>*/}
+            {/*            </li>*/}
+            {/*        ))}*/}
+            {/*    </ul>*/}
+            {/*</Modal>*/}
         </>
     );
 };
