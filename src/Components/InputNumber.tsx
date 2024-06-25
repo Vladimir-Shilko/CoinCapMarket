@@ -1,19 +1,13 @@
 //create an imput for choose amount of coins to buy and add to portfolio with validation min max
 import React, { useState } from 'react';
 import { InputNumber} from "antd";
-import { InputNumberProps } from 'antd/lib/input-number';
-import { portfolioCoin } from '../utils/types';
+// import { InputNumberProps } from 'antd/lib/input-number';
+import {InputNumberProps, portfolioCoin} from '../utils/types';
 import {usePortfolio} from "../pages";
+import '../styles/Input.css'
 
-interface InputProps {
-    placeholder?: string;
-    min?: number;
-    max?: number;
-    onChange?: (value: number) => void;
-    children?: Record<string, any>[];
-}
 
-const CustomInput: React.FC<InputProps> = ({  placeholder, min, max, onChange }) => {
+const CustomInput: React.FC<InputNumberProps> = ({ placeholder, min, max, onChange }) => {
     const [value, setValue] = useState<number | undefined>(undefined);
     const coin = usePortfolio();
     function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -33,11 +27,18 @@ const CustomInput: React.FC<InputProps> = ({  placeholder, min, max, onChange })
     //     console.log('changed', value);
     // };
 
-    // @ts-ignore
-    return (
+
+    return  (
+
         <div>
             <p>{placeholder}</p>
-            <input min = {min} max={max} defaultValue={0} type='number' onChange={handleChange}/>
+            <input
+                min={min}
+                max={max}
+                value={value}
+                onChange={handleChange}
+                placeholder={placeholder}
+            />
         </div>
     );
 };

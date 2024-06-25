@@ -2,9 +2,10 @@ import {CoinData, portfolioCoin, CoinHistory} from "../utils/types";
 
 const API_URL : string = 'https://api.coincap.io/v2';
 
-export const fetchCoins : () => Promise<CoinData>  = async (): Promise<CoinData>  => {
-    const response = await fetch(`${API_URL}/assets?limit=10`);
+export const fetchCoins : (offset: number) => Promise<CoinData[]>  = async (offset): Promise<CoinData[]>  => {
+    const response = await fetch(`${API_URL}/assets?limit=100&offset=${offset}`);
     const { data } = await response.json();
+    console.log('adada '+data)
     return data.map((coin: CoinData) => ({
         id: coin.id,
         symbol: coin.symbol,

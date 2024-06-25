@@ -2,12 +2,9 @@ import React from "react";
 //create a line chart
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Line } from "react-chartjs-2";
-
-
-
 import { useQuery } from "react-query";
 import { fetchCoinHistory } from "../../services/api";
-import { CoinHistory } from "../../utils/types";
+import { CoinHistory, PriceChartProps } from "../../utils/types";
 import Loader from "../Loader";
 import ErrorMessage from "../ErrorMessage";
 import { format } from 'date-fns';
@@ -16,10 +13,7 @@ import { ru } from 'date-fns/locale';
 import { registerables } from 'chart.js';
 ChartJS.register(...registerables);
 
-interface PriceChartProps {
-    symbol: string;
-    interval: string;
-}
+
 
 const PriceChart: React.FC<PriceChartProps> = ({ symbol , interval}) => {
     const { data, isLoading, error } = useQuery<CoinHistory[]>(['coinHistory', symbol], () => fetchCoinHistory(symbol, interval), {

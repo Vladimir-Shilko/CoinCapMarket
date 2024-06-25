@@ -1,10 +1,7 @@
 import React, {useState} from 'react';
 import { Modal } from 'antd';
+import {ErrorMessageProps} from "../utils/types";
 
-//create a new component ErrorMessage with props message
-interface ErrorMessageProps {
-    message: string;
-}
 const ErrorMessage: React.FC<ErrorMessageProps> = (props:{message:string}) => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const errorMessage : string = props.message;
