@@ -3,6 +3,8 @@ import { Table} from 'antd';
 // import { ColumnsType } from 'antd/es/table';
 import {CoinData, portfolioCoin} from '../utils/types'
 import Button from './Button';
+//go to coin page with details of coin with react-router
+import { Link } from 'react-router-dom';
 import Modal from './Modal';
 //write custom ColumnsType
 interface ColumnsType<T> {
@@ -18,6 +20,14 @@ interface CoinTableProps {
 }
 
 const CoinTable: React.FC<CoinTableProps> = ({ coins, onAddToPortfolio }) => {
+    const handleRowClick = (record: CoinData) => {
+        // Выполните здесь нужные действия при нажатии на строку
+        console.log('Нажата строка:', record);
+        //go to url with coin details
+        window.location.href = `/${record.id}`;
+
+
+    };
     const columns: ColumnsType<CoinData>[] = [
         { title: 'Символ', dataIndex: 'symbol', key: 'symbol' },
         { title: 'Логотип', dataIndex: 'logoUrl', key: 'logo', render: (url: string | undefined) => <img src={url} alt="logo" width="32" /> },
@@ -28,7 +38,9 @@ const CoinTable: React.FC<CoinTableProps> = ({ coins, onAddToPortfolio }) => {
     ];
 
     return <>
-        <Table columns={columns} dataSource={coins} pagination={{ pageSize: 10 }} />;
+        <Table columns={columns} dataSource={coins} pagination={{ pageSize: 10 }} onRow={(record: CoinData) => ({
+            onClick: () => handleRowClick(record),
+        })}/>;
 
     </>;
 };

@@ -34,3 +34,7 @@ export interface portfolioCoin {
 
 
 }
+export interface CoinHistory {
+    priceUsd: string;
+    time: number;
+}

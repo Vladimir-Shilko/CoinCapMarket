@@ -1,4 +1,4 @@
-import {CoinData, portfolioCoin} from "../utils/types";
+import {CoinData, portfolioCoin, CoinHistory} from "../utils/types";
 
 const API_URL : string = 'https://api.coincap.io/v2';
 
@@ -41,12 +41,12 @@ export const fetchCoinDetails : (id: string) => Promise<CoinData> = async (id: s
         rank: data.rank,
     };
 }
-export const fetchCoinHistory : (id: string) => Promise<CoinData> = async (id: string): Promise<CoinData> => {
-    const response = await fetch(`${API_URL}/assets/${id}/history?interval=h1`);
+export const fetchCoinHistory : (id: string, interval: string) => Promise<CoinHistory[]> = async (id: string, interval): Promise<CoinHistory[]> => {
+    const response = await fetch(`${API_URL}/assets/${id}/history?interval=h${interval}`);
     const { data } = await response.json();
-    return data.map((coin: CoinData) => ({
-        priceUsd: +coin.priceUsd,
-
+    return data.map((coin: CoinHistory) => ({
+        priceUsd: coin.priceUsd,
+        time: +coin.time,
     }));
 }
 export const fetchCoinPrices : () => Promise<CoinData[]> = async (): Promise<CoinData[]> => {
