@@ -1,16 +1,13 @@
 import React, { useState , useRef} from 'react';
 import {Pagination, Table} from 'antd';
 // import { ColumnsType } from 'antd/es/table/interface';
-import {CoinData, CoinTableProps, portfolioCoin, InputRef, ColumnsType, PaginationProps} from '../utils/types'
-import Button from './Button';
+import {CoinData, CoinTableProps, portfolioCoin, InputRef, ColumnsType, PaginationProps} from '../../utils/types'
+import Button from '../Button/Button';
 import { SearchOutlined } from '@ant-design/icons';
 import {  Space } from 'antd';
 import  { FilterDropdownProps } from 'antd/es/table/interface';
-// import Highlighter from 'react-highlight-words';
-//go to coin page with details of coin with react-router
-import Modal from './Modal';
-import Input from "./InputNumber";
-import InputText from "./InputText";
+import '../../styles/Table.css';
+import InputText from "../Inputs/InputText";
 
 const CoinTable: React.FC<CoinTableProps> = ({ coins, onAddToPortfolio, handleFilter, fetchPageCoins}) => {
 
@@ -41,18 +38,18 @@ const CoinTable: React.FC<CoinTableProps> = ({ coins, onAddToPortfolio, handleFi
         // set(filteredCoins);
     }
     //watch for pagination page change
-    const handlePageChange = (page: any) => {
+    const handlePageChange = (page: number) => {
         console.log('page: ' +page.toString())
-        // fetchPageCoins(page);
+        fetchPageCoins(page);
     };
     //create Pagination
 
     return <>
         <InputText placeholder="Поиск" onChange={InputChange} />
-        <Table columns={columns} dataSource={coins} pagination={{ pageSize: 10 }} onRow={(record: CoinData) => ({
+        <Table className='table' columns={columns} dataSource={coins} pagination={false} onRow={(record: CoinData) => ({
             onClick: () => handleRowClick(record),
-        })}/>;
-        {/*/!*<Pagination current={1} onChange={(page:number)=>handlePageChange(page)}/>*!/ do not work on my ts version:(*/}
+        })}/>
+        <Pagination className='pagination' defaultCurrent={1} total={100} onChange={handlePageChange}/>
 
     </>;
 };

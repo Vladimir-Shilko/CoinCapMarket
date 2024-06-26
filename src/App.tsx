@@ -1,13 +1,13 @@
 import React from 'react';
 import './App.css';
-import Header from './Components/Header';
-import {BrowserRouter as Router, Routes, Route, useNavigate, redirect} from 'react-router-dom';
-import Button from './Components/Button';
-import CoinTable from './Components/CoinTable';
+import Header from './Components/Header/Header';
+import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
+import Button from './Components/Button/Button';
+import CoinTable from './Components/CoinTable/CoinTable';
 import { CoinData } from './utils/types';
-import CoinRow from './Components/CoinRow';
+import CoinRow from './Components/CoinRow/CoinRow';
 // import Input from './Components/Input';
-import Loader from './Components/Loader';
+import Loader from './Components/Loader/Loader';
 import {QueryClient, QueryClientProvider} from "react-query";
 // import Modals from './Components/Modals';
 import MainPage from './pages/index';
@@ -19,7 +19,7 @@ function App() : JSX.Element{
       <QueryClientProvider client={queryClient}>
       <div className="App">
         <Header/>
-      </div>
+
           <Router>
               <Routes>
                   <Route path="/" element={<MainPage/>} />
@@ -28,7 +28,9 @@ function App() : JSX.Element{
                   {/* <Route path="*" element={<NotFoundPage />} /> */}
               </Routes>
           </Router>
+        </div>
         </QueryClientProvider>
+
   );
 }
 

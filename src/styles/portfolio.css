@@ -17,3 +17,14 @@
 .portfolio:hover {
     box-shadow: 0 0 10px #3140a1;
 }
+/* make it adaptive to pc and mobile */
+@media (max-width: 768px) {
+
+    .portfolio {
+        margin: 70px 0px ;
+        padding: 0px 0px;
+        font-size: 80%;
+        right: 1%;
+        /*height: 100%;*/
+    }
+}

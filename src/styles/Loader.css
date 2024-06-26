@@ -8,6 +8,7 @@
     width: 20px;
     height: 20px;
     background-color: #333;
+    justify-content: center;
     border-radius: 50%;
     margin: 0 5px;
     animation: circle 0.9s infinite alternate;

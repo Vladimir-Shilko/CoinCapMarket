@@ -4,7 +4,8 @@ import {useQuery} from "react-query";
 import '../../styles/portfolio.css';
 import {fetchPortfolioValue} from "../../services/api";
 import {CoinData, portfolioCoin} from "../../utils/types";
-import Modal from '../Modal'
+import Modal from '../Modal/Modal'
+import Button from "../Button/Button";
 
 const PortfolioValue: React.FC = () => {
     const [isModalVisible, setIsModalVisible] = useState(false);
@@ -41,7 +42,7 @@ const PortfolioValue: React.FC = () => {
             let diff = 0.00;
             let percentageChange: string = '0.00';
             console.log('act '+actualValue)
-            if(actualValue !== undefined && actualValue !== null && actualValue !== NaN){
+            if(actualValue !== undefined && actualValue !== null ){
                 diff = Number.parseFloat(substract(actualValue, portfolioValue).toFixed(2))
                 percentageChange = (diff / portfolioValue * 100).toFixed(2);
             }
@@ -51,14 +52,7 @@ const PortfolioValue: React.FC = () => {
             setPercentageChange(percentageChange);
         }
         , [data]);
-    // const actualValue = data;
-    // let diff = 0.00;
-    // let percentageChange: string = '0.00';
-    // console.log(actualValue)
-    // if(actualValue !== undefined && actualValue !== null && actualValue !== NaN){
-    //     diff = substract(Number.parseFloat(actualValue), portfolioValue)
-    //     percentageChange = (diff / portfolioValue * 100).toFixed(2);
-    // }
+
 
     const handleClick = () => {
         setIsModalVisible(true);
@@ -74,18 +68,33 @@ const PortfolioValue: React.FC = () => {
                 Портфель: {portfolioValue} USD {(isLoading)? '...' : `${diff} (${percentageChange}%)` }
             </div>
             <Modal title={'Портфель'} open={isModalVisible} onClose={handleCancel} >
-                <ul>
-                    {portfolio.map((coin: portfolioCoin ) => (
-                        <li key={coin.symbol}>{coin.symbol}: {coin.amount} монет, купленных по цене {coin.priceUsd}
-                            <button onClick={() => {
-                                //delete coin from portfolio
-                                const newPortfolio : portfolioCoin[] = portfolio.filter((c: portfolioCoin) => c.uniqueId !== coin.uniqueId);
-                                localStorage.setItem('portfolio', JSON.stringify(newPortfolio));
-                                window.location.reload();
-                            }}>Удалить</button>
-                        </li>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Символ</th>
+                        <th>Количество</th>
+                        <th>Цена (USD)</th>
+                        <th>Удалить</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {portfolio.map((coin: portfolioCoin) => (
+                        <tr key={coin.uniqueId}>
+                            <td>{coin.symbol}</td>
+                            <td>{coin.amount}</td>
+                            <td>{coin.priceUsd}</td>
+                            <td>
+                                <Button onClick={() => {
+                                    //delete coin from portfolio
+                                    const newPortfolio: portfolioCoin[] = portfolio.filter((c: portfolioCoin) => c.uniqueId !== coin.uniqueId);
+                                    localStorage.setItem('portfolio', JSON.stringify(newPortfolio));
+                                    window.location.reload();
+                                }}>Удалить</Button>
+                            </td>
+                        </tr>
                     ))}
-                </ul>
+                    </tbody>
+                </table>
             </Modal>
 
             {/*<Modal title="Портфель"  open={isModalVisible} onCancel={handleCancel} onOk={handleCancel}>*/}

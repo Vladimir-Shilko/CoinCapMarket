@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useQuery } from 'react-query';
-import CoinTable from '../Components//CoinTable';
+import CoinTable from '../Components/CoinTable/CoinTable';
 import { fetchCoins } from '../services/api';
 import {CoinData, portfolioCoin} from '../utils/types';
-import Modal from "../Components/Modal";
-import Input from "../Components/InputNumber";
+import Modal from "../Components/Modal/Modal";
+import Input from "../Components/Inputs/InputNumber";
 
 //create context with callback function to add coin to portfolio
 const PortfolioContext = React.createContext<CoinData | null>(null);
@@ -13,12 +13,12 @@ export const usePortfolio = () => React.useContext(PortfolioContext);
 
 const HomePage: React.FC = () => {
     let offset: number = 0;
-    const { data: coins, isLoading } = useQuery<CoinData[]>('coins', ()=>fetchCoins(offset));
+    const { data: coins, isLoading } = useQuery<CoinData[]>('coins', ()=>fetchCoins(offset, 10));
     const [filteredCoins, setFilteredCoins] = useState<CoinData[]>([]);
     const [openModal, setOpenModal] = useState(false);
     const [selectedCoin, setSelectedCoin] = useState<CoinData | null>(null);
     const [portfolioCoin, setPortfolioCoin] = useState<portfolioCoin | null>(null);
-
+    const [Search, setSearch] = useState<string>(''); //search value
     useEffect(() => {
         if (coins) {
             //format coins that 0.12421 to 0.12
@@ -31,6 +31,7 @@ const HomePage: React.FC = () => {
                 };
             });
             setFilteredCoins(formattedCoins);
+            // setIsSearch(false);
         }
     }, [coins]);
 
@@ -40,8 +41,30 @@ const HomePage: React.FC = () => {
         const filteredCoins = coins.filter((coin) => {
             return coin.name.toLowerCase().includes(search.toLowerCase());
         });
-        setFilteredCoins(filteredCoins);
+        if (filteredCoins.length === 0) {
+            fetchCoins(0, 100).then((coins) => {
+                //search again
+                const filteredCoins = coins.filter((coin) => {
+                    return coin.name.toLowerCase().includes(search.toLowerCase());
+                });
+                setFilteredCoins(filteredCoins);
+
+                }
+            );
+        }
+        else {
+            // setSearch(search);
+            setFilteredCoins(filteredCoins);
+        }
     };
+    //if filteredCoins is empty, fetch coins from API without limit
+    // useEffect(() => {
+    //     if(filteredCoins.length === 0 && Se){
+    //         fetchCoins(0, 100).then((coins) => {
+    //             setFilteredCoins(coins);
+    //         });
+    //     }
+    // }, [filteredCoins]);
 
     const handleAddToPortfolio = (coin: CoinData) => {
         console.log('add to portfolio', coin);
@@ -73,8 +96,10 @@ const HomePage: React.FC = () => {
         // setSelectedCoin(null)
         }
 
-    function fetchPageCoins() {
-        // offset += 10;
+    async function fetchPageCoins(page: number) {
+        offset = (page-1) * 10;
+        const coins = await fetchCoins(offset, 10);
+        setFilteredCoins(coins);
     }
 
     function onClose() {

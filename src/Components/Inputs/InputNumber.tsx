@@ -2,9 +2,9 @@
 import React, { useState } from 'react';
 import { InputNumber} from "antd";
 // import { InputNumberProps } from 'antd/lib/input-number';
-import {InputNumberProps, portfolioCoin} from '../utils/types';
-import {usePortfolio} from "../pages";
-import '../styles/Input.css'
+import {InputNumberProps, portfolioCoin} from '../../utils/types';
+import {usePortfolio} from "../../pages";
+import '../../styles/Input.css'
 
 
 const CustomInput: React.FC<InputNumberProps> = ({ placeholder, min, max, onChange }) => {

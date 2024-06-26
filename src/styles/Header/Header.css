@@ -16,3 +16,47 @@
   background-color: #3140a1;
     color: #ffffff;
 }
+/*//make it adaptive to pc and mobile*/
+@media (max-width: 768px) {
+  .popularCoin {
+    margin: 0 2px;
+    padding: 3px 3px;
+    font-size: 70%;
+    /*img{*/
+    /*    width: 0px;*/
+    /*    height: 0px;*/
+
+    /*}*/
+  }
+}
+.header {
+  display: block;
+  /*overflow: auto;*/
+  /*flex-wrap: wrap;*/
+  /*justify-content: space-between;*/
+  /*align-items: center;*/
+  /*padding: 10px 20px;*/
+}
+
+@media (max-width: 768px) {
+  .header {
+    padding: 10px 10px;
+
+  }
+  .header .logo {
+    font-size: 16px;
+  }
+  .header .logo img {
+    width: 25px;
+    height: 25px;
+  }
+}
+@media (max-width: 330px) {
+  .header .logo {
+    font-size: 16px;
+  }
+  .header img {
+    width: 0px;
+    height: 0px;
+  }
+}

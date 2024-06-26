@@ -11,6 +11,7 @@
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "antd": "^5.18.3",
+    "chart.js": "^4.4.3",
     "date-fns": "^3.6.0",
     "react": "^18.3.1",
     "react-chartjs-2": "^5.2.0",
@@ -19,7 +20,8 @@
     "react-query": "^3.39.3",
     "react-router-dom": "^6.24.0",
     "react-scripts": "^5.0.1",
-    "typescript": "3.4.5",
+    "stable": "^0.1.8",
+    "typescript": "5.1.6",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

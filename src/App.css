@@ -36,3 +36,12 @@
 /*    transform: rotate(360deg);*/
 /*  }*/
 /*}*/
+h1 {
+  font-size: 2em;
+  color: #000;
+}
+@media (max-width: 768px) {
+  h1 {
+    font-size: 1em;
+  }
+}

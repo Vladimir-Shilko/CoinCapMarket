@@ -2,11 +2,11 @@ import {CoinData, portfolioCoin, CoinHistory} from "../utils/types";
 
 const API_URL : string = 'https://api.coincap.io/v2';
 
-export const fetchCoins : (offset: number) => Promise<CoinData[]>  = async (offset): Promise<CoinData[]>  => {
-    const response = await fetch(`${API_URL}/assets?limit=100&offset=${offset}`);
+export const fetchCoins : (offset: number, limit:number) => Promise<CoinData[]>  = async (offset, limit): Promise<CoinData[]>  => {
+    const response = await fetch(`${API_URL}/assets?limit=${limit}&offset=${offset}`);
     const { data } = await response.json();
     console.log('adada '+data)
-    return data.map((coin: CoinData) => ({
+    const coins = data.map((coin: CoinData) => ({
         id: coin.id,
         symbol: coin.symbol,
         priceUsd: +coin.priceUsd,
@@ -22,6 +22,9 @@ export const fetchCoins : (offset: number) => Promise<CoinData[]>  = async (offs
         rank: +coin.rank,
 
     }));
+    //delete invalid coins with undefined price or marketCap or volume or changePercent  or vwap24Hr or supply or maxSupply or explorer or name or rank
+    return coins.filter((coin: CoinData) => coin.priceUsd && coin.marketCapUsd && coin.volumeUsd24Hr && coin.changePercent24Hr && coin.vwap24Hr  && coin.name && coin.rank);
+
 }
 export const fetchCoinDetails : (id: string) => Promise<CoinData> = async (id: string): Promise<CoinData> => {
     const response = await fetch(`${API_URL}/assets/${id}`);

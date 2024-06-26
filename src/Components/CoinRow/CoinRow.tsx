@@ -1,5 +1,5 @@
 import React from 'react';
-import {CoinData, CoinRowProps} from '../utils/types';
+import {CoinData, CoinRowProps} from '../../utils/types';
 
 const CoinRow: React.FC<CoinRowProps> = ({ coin , onAddToPortfolio }) => {
     return (
