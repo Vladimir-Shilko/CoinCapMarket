@@ -12,13 +12,14 @@ const CustomInput: React.FC<InputNumberProps> = ({ placeholder, min, max, onChan
     const coin = usePortfolio();
     function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
         const newValue = Number(e.target.value);
-        if (min && newValue < min) {
-            setValue(min);
-        } else if (max && newValue > max) {
-            setValue(max);
-        } else {
-            setValue(newValue);
-        }
+        // if (min && newValue < min) {
+        //     setValue(min);
+        // } else if (max && newValue > max) {
+        //     setValue(max);
+        // } else {
+        //     setValue(newValue);
+        // }
+        setValue(newValue);
         if (onChange) {
             onChange(newValue);
         }
@@ -32,7 +33,8 @@ const CustomInput: React.FC<InputNumberProps> = ({ placeholder, min, max, onChan
 
         <div>
             <p>{placeholder}</p>
-            <input
+            <input type="number"
+                   defaultValue={1}
                 min={min}
                 max={max}
                 value={value}

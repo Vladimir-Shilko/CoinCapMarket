@@ -21,7 +21,16 @@ const HomePage: React.FC = () => {
 
     useEffect(() => {
         if (coins) {
-            setFilteredCoins(coins);
+            //format coins that 0.12421 to 0.12
+            const formattedCoins = coins.map((coin) => {
+                return {
+                    ...coin,
+                    priceUsd: Number.parseFloat(coin.priceUsd).toFixed(2),
+                    marketCapUsd: Number.parseFloat(coin.marketCapUsd).toFixed(2),
+                    changePercent24Hr: Number.parseFloat(coin.changePercent24Hr).toFixed(2),
+                };
+            });
+            setFilteredCoins(formattedCoins);
         }
     }, [coins]);
 
@@ -35,11 +44,14 @@ const HomePage: React.FC = () => {
     };
 
     const handleAddToPortfolio = (coin: CoinData) => {
+        console.log('add to portfolio', coin);
         setSelectedCoin(coin);
         setOpenModal(true);
     };
     //покупка монеты
     const handleBuy = () => {
+        console.log('buy', portfolioCoin);
+        
         if(!portfolioCoin || portfolioCoin.amount == null || portfolioCoin.amount <1 ) return;
         // Логика добавления монеты в портфель
         const portfolio = JSON.parse(localStorage.getItem('portfolio') || '[]');
@@ -58,22 +70,28 @@ const HomePage: React.FC = () => {
             };
             setPortfolioCoin(portfolioCoin)
         }
-        setPortfolioCoin(null)
+        // setSelectedCoin(null)
         }
 
     function fetchPageCoins() {
         // offset += 10;
     }
 
+    function onClose() {
+        setOpenModal(false);
+        setSelectedCoin(null);
+        setPortfolioCoin(null);
+    }
+
     return (
         <div>
             <h1>Таблица Монет</h1>
             {isLoading ? <p>Loading...</p> : <CoinTable handleFilter={handleFilter} coins={filteredCoins} onAddToPortfolio={handleAddToPortfolio} fetchPageCoins={fetchPageCoins} />}
-            <Modal open={openModal} onConfirm={handleBuy} onClose={()=>setOpenModal(false)}>
+            <Modal open={openModal} onConfirm={handleBuy} onClose={()=>onClose()}>
                 <h2>Добавить в портфель</h2>
                 {selectedCoin && <p>{selectedCoin.name}</p>}
                 <PortfolioContext.Provider value={selectedCoin}>
-                <Input type='number' placeholder="Количество" onChange={handleChange}/>
+                <Input min = {1} max={1000} type='number' placeholder="Количество" onChange={handleChange}/>
                 </PortfolioContext.Provider>
             </Modal>
         </div>

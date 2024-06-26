@@ -13,6 +13,7 @@ import Input from "./InputNumber";
 import InputText from "./InputText";
 
 const CoinTable: React.FC<CoinTableProps> = ({ coins, onAddToPortfolio, handleFilter, fetchPageCoins}) => {
+
     const handleRowClick = (record: CoinData) => {
         // Выполните здесь нужные действия при нажатии на строку
         console.log('Нажата строка:', record);
@@ -21,15 +22,6 @@ const CoinTable: React.FC<CoinTableProps> = ({ coins, onAddToPortfolio, handleFi
 
 
     };
-    const [searchText, setSearchText] = useState('');
-    const [searchedColumn, setSearchedColumn] = useState('');
-    const searchInput = useRef<InputRef>(null);
-
-
-    const handleReset = (clearFilters: () => void) => {
-        clearFilters();
-        setSearchText('');
-    };
 
     const columns: ColumnsType<CoinData>[] = [
         { title: 'Символ', dataIndex: 'symbol', key: 'symbol', sorter: (a: CoinData, b: CoinData) => a.symbol.localeCompare(b.symbol)},
@@ -37,7 +29,7 @@ const CoinTable: React.FC<CoinTableProps> = ({ coins, onAddToPortfolio, handleFi
         { title: 'Цена (USD)', dataIndex: 'priceUsd', key: 'price' , defaultSortOrder: 'descend', sorter: (a: CoinData, b: CoinData) => Number.parseFloat(a.priceUsd) - Number.parseFloat(b.priceUsd)},
         { title: 'Рын. капитализация (USD)', dataIndex: 'marketCapUsd', key: 'marketCap', defaultSortOrder: 'descend', sorter: (a: CoinData, b: CoinData) => Number.parseFloat(a.marketCapUsd) - Number.parseFloat(b.marketCapUsd)},
         { title: 'Изм. за 24ч (%)', dataIndex: 'changePercent24Hr', key: 'change24h', defaultSortOrder: 'descend', sorter: (a: CoinData, b: CoinData) => Number.parseFloat(a.changePercent24Hr) - Number.parseFloat(b.changePercent24Hr)},
-        { title: 'Действия', key: 'action', render: (text, record) => <Button onClick={() => onAddToPortfolio(record)}>Add</Button> },
+        { title: 'Действия', key: 'action', render: (text, record) => <Button onClick={(event) => {event.stopPropagation();onAddToPortfolio(record)}}>Add</Button> },
     ];
 
     function InputChange( value: string) {
