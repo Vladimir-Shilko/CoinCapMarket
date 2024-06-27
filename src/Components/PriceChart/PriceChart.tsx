@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useRef} from "react";
 //create a line chart
 // import { Chart as ChartJS } from "react-chartjs-2";
 // ArcElement, Tooltip, Legend
@@ -17,16 +17,25 @@ ChartJS.register(...registerables);
 
 
 const PriceChart: React.FC<PriceChartProps> = ({ symbol , interval}) => {
-    const { data, isLoading, error } = useQuery<CoinHistory[]>(['coinHistory', symbol], () => fetchCoinHistory(symbol, interval), {
-        enabled: !!symbol,
-    });
+    // const { data, isLoading, error } = useQuery<CoinHistory[]>(['coinHistory', symbol], () => fetchCoinHistory(symbol, interval), {
+    //     enabled: !!symbol,
+    // });
+    const chartRef = useRef<any>(null);
     useEffect(() => {
         console.log('daddad')
         let chart: any
+        if(!interval || interval==='')
+        {
+            interval='1'
+        }
+        console.log(symbol+' '+interval)
         //fetch new data
         fetchCoinHistory(symbol, interval).then(
             (data) => {
                 console.log(data);
+                if (chartRef.current) {
+                                 chartRef.current.destroy();
+                             }
                 chart = new ChartJS('myChart', {
                     type: 'line',
                     data: {
@@ -42,38 +51,43 @@ const PriceChart: React.FC<PriceChartProps> = ({ symbol , interval}) => {
                         ],
                     },
                 });
+                chartRef.current = chart;
             }
 
         );
 
-        // chart.update();
-        return () => {
-            chart.destroy();
-        }
+        // return () => {
+        //     try {
+        //         if (chartRef.current) {
+        //             chartRef.current.destroy();
+        //         }
+        //     }
+        //     catch (e){}
+        // }
     },[interval]);
-    if (isLoading) return <Loader />;
-    if (error) return <ErrorMessage message="Ошибка загрузки данных" />;
-    // if(!data) return null;
-    const chartData = {
-        labels: data?.map(item => format(new Date(item.time), 'dd MMM yyyy HH:mm', {locale: ru})),
-        datasets: [
-            {
-                label: 'Цена (USD)',
-                data: data?.map(item => item.priceUsd),
-                fill: false,
-                backgroundColor: 'rgba(75,192,192,0.4)',
-                borderColor: 'rgba(75,192,192,1)',
-            },
-        ],
-    };
+    // if (isLoading) return <Loader />;
+    // if (error) return <ErrorMessage message="Ошибка загрузки данных" />;
+    // // if(!data) return null;
+    // const chartData = {
+    //     labels: data?.map(item => format(new Date(item.time), 'dd MMM yyyy HH:mm', {locale: ru})),
+    //     datasets: [
+    //         {
+    //             label: 'Цена (USD)',
+    //             data: data?.map(item => item.priceUsd),
+    //             fill: false,
+    //             backgroundColor: 'rgba(75,192,192,0.4)',
+    //             borderColor: 'rgba(75,192,192,1)',
+    //         },
+    //     ],
+    // };
 
     return (
         <div >
-            {isLoading ?
-                (<Loader />) : (
+            {/*{interval ?*/}
+            {/*    (<Loader />) : (*/}
                     <canvas id="myChart" width="400" height="400"></canvas>
-                )
-            }
+            {/*    )*/}
+            {/*}*/}
             {/*<Chart.Line data={chartData} />*/}
         </div>
     );
