@@ -67,7 +67,7 @@ const PortfolioValue: React.FC = () => {
             <div className='portfolio' onClick={handleClick}>
                 Портфель: {portfolioValue} USD {(isLoading)? '...' : `${diff} (${percentageChange}%)` }
             </div>
-            <Modal title={'Портфель'} open={isModalVisible} onClose={handleCancel} >
+            <Modal title={'Портфель'} open={isModalVisible} onClose={handleCancel} onConfirm={handleCancel} >
                 <table>
                     <thead>
                     <tr>

@@ -15,6 +15,7 @@ export interface CoinData {
     maxSupply: string;
     explorer: string;
     logoUrl: string;
+    logoFile?: string;
 }
 export interface portfolioCoin {
     uniqueId?: string;

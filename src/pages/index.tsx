@@ -22,7 +22,8 @@ const HomePage: React.FC = () => {
     useEffect(() => {
         if (coins) {
             //format coins that 0.12421 to 0.12
-            const formattedCoins = coins.map((coin) => {
+            let formattedCoins = coins.filter((coin: CoinData) => coin.priceUsd && coin.marketCapUsd && coin.volumeUsd24Hr && coin.changePercent24Hr && coin.vwap24Hr  && coin.name && coin.rank);
+            formattedCoins = formattedCoins.map((coin) => {
                 return {
                     ...coin,
                     priceUsd: Number.parseFloat(coin.priceUsd).toFixed(2),
@@ -69,6 +70,14 @@ const HomePage: React.FC = () => {
     const handleAddToPortfolio = (coin: CoinData) => {
         console.log('add to portfolio', coin);
         setSelectedCoin(coin);
+        if (coin){
+            let portfolioCoin: portfolioCoin = {
+                ...coin,
+                amount: 1,
+                priceUsd: Number.parseFloat(coin.priceUsd)
+            };
+            setPortfolioCoin(portfolioCoin)
+        }
         setOpenModal(true);
     };
     //покупка монеты

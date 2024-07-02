@@ -8,7 +8,7 @@ import {  Space } from 'antd';
 import  { FilterDropdownProps } from 'antd/es/table/interface';
 import '../../styles/Table.css';
 import InputText from "../Inputs/InputText";
-
+import ImageWithLoader from "../Image/Image";
 const CoinTable: React.FC<CoinTableProps> = ({ coins, onAddToPortfolio, handleFilter, fetchPageCoins}) => {
 
     const handleRowClick = (record: CoinData) => {
@@ -19,10 +19,13 @@ const CoinTable: React.FC<CoinTableProps> = ({ coins, onAddToPortfolio, handleFi
 
 
     };
-
+    const [imageLoaded, setImageLoaded] = useState<boolean>(false);
+    const ImageLoaded = ( ) => {
+        setImageLoaded(true);
+    }
     const columns: ColumnsType<CoinData>[] = [
-        { title: 'Символ', dataIndex: 'symbol', key: 'symbol', sorter: (a: CoinData, b: CoinData) => a.symbol.localeCompare(b.symbol)},
-        { title: 'Логотип', dataIndex: 'logoUrl', key: 'logo', render: (url: string | undefined) => <img src={url} alt="logo" width="32" /> },
+        { title: 'Символ', dataIndex: 'symbol', key: 'symbol', render:(symbol: string|undefined) => <div style={{display : imageLoaded? 'block': 'none'}}>{symbol}</div>,sorter: (a: CoinData, b: CoinData) => a.symbol.localeCompare(b.symbol)},
+        { title: 'Логотип', dataIndex: 'logoFile', key: 'logo', render: (url: string | undefined) => <ImageWithLoader ImageLoaded={ImageLoaded} src={url} alt="logo" width="32" /> },
         { title: 'Цена (USD)', dataIndex: 'priceUsd', key: 'price' , defaultSortOrder: 'descend', sorter: (a: CoinData, b: CoinData) => Number.parseFloat(a.priceUsd) - Number.parseFloat(b.priceUsd)},
         { title: 'Рын. капитализация (USD)', dataIndex: 'marketCapUsd', key: 'marketCap', defaultSortOrder: 'descend', sorter: (a: CoinData, b: CoinData) => Number.parseFloat(a.marketCapUsd) - Number.parseFloat(b.marketCapUsd)},
         { title: 'Изм. за 24ч (%)', dataIndex: 'changePercent24Hr', key: 'change24h', defaultSortOrder: 'descend', sorter: (a: CoinData, b: CoinData) => Number.parseFloat(a.changePercent24Hr) - Number.parseFloat(b.changePercent24Hr)},
@@ -46,9 +49,10 @@ const CoinTable: React.FC<CoinTableProps> = ({ coins, onAddToPortfolio, handleFi
 
     return <>
         <InputText placeholder="Поиск" onChange={InputChange} />
+        {coins?.every((coin: CoinData) => coin.logoFile === undefined) ? <div>Загрузка...</div> : (
         <Table className='table' columns={columns} dataSource={coins} pagination={false} onRow={(record: CoinData) => ({
             onClick: () => handleRowClick(record),
-        })}/>
+        })}/>)}
         <Pagination className='pagination' defaultCurrent={1} total={100} onChange={handlePageChange}/>
 
     </>;

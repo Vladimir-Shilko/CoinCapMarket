@@ -67,16 +67,16 @@ const CoinDetailPage: React.FC = () => {
             {/*<button onClick={() => router.push('/')}>Назад</button>*/}
             <h1>{coin && coin.name}</h1>
             <h2>{coin && coin.symbol}</h2>
-            <img src={coin && coin.logoUrl} alt={coin && coin.symbol} width="64"/>
+            <img src={coin && coin.logoFile} alt={coin && coin.symbol} width="64"/>
             <p>Rank: {coin && coin.rank}</p>
             <p>Supply: {coin && Number.parseFloat(coin.supply).toFixed(2)}</p>
             <p>Цена (USD): {coin && Number.parseFloat(coin.priceUsd).toFixed(2)}</p>
             <p>Рын. капитализация (USD): {coin && Number.parseFloat(coin.marketCapUsd.toLocaleString()).toFixed(2)}</p>
-            <p>Max Supply: {coin && Number.parseFloat(coin.maxSupply).toFixed(2)}</p>
+            <p>Max Supply: {coin && (isNaN(Number.parseFloat(coin.maxSupply))) ? '-': coin && Number.parseFloat(coin.maxSupply).toFixed(2)}</p>
             <select  onChange={(e) => {changeInterval(e.target.value)}}>
                 <option value="1">1 месяц</option>
                 <option value="12">12 месяцев</option>
-                <option value="24">24 месяца</option>
+                {/*<option value="24">24 месяца</option>*/}
             </select>
             {/*<Button onClick={()=> se}>Reload</Button>*/}
             <PriceChart symbol={symbol as string} interval={interval}/>

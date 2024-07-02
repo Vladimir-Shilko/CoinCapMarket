@@ -12,14 +12,18 @@ import {QueryClient, QueryClientProvider} from "react-query";
 // import Modals from './Components/Modals';
 import MainPage from './pages/index';
 import Coin from './pages/coin';
+import { Col, Row } from 'antd';
+import {  Layout } from 'antd';
 
+const { Content } = Layout;
 const queryClient = new QueryClient();
 function App() : JSX.Element{
   return (
       <QueryClientProvider client={queryClient}>
       <div className="App">
-        <Header/>
-
+          <Layout>
+          <Header/>
+          <Content>
           <Router>
               <Routes>
                   <Route path="/" element={<MainPage/>} />
@@ -28,6 +32,8 @@ function App() : JSX.Element{
                   {/* <Route path="*" element={<NotFoundPage />} /> */}
               </Routes>
           </Router>
+          </Content>
+          </Layout>
         </div>
         </QueryClientProvider>
 
