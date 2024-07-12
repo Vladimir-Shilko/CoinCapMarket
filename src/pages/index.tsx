@@ -10,7 +10,6 @@ import Input from "../Components/Inputs/InputNumber";
 const PortfolioContext = React.createContext<CoinData | null>(null);
 export const usePortfolio = () => React.useContext(PortfolioContext);
 
-
 const HomePage: React.FC = () => {
     let offset: number = 0;
     const { data: coins, isLoading } = useQuery<CoinData[]>('coins', ()=>fetchCoins(offset, 10));
@@ -18,7 +17,6 @@ const HomePage: React.FC = () => {
     const [openModal, setOpenModal] = useState(false);
     const [selectedCoin, setSelectedCoin] = useState<CoinData | null>(null);
     const [portfolioCoin, setPortfolioCoin] = useState<portfolioCoin | null>(null);
-    const [Search, setSearch] = useState<string>(''); //search value
     useEffect(() => {
         if (coins) {
             //format coins that 0.12421 to 0.12
@@ -32,7 +30,6 @@ const HomePage: React.FC = () => {
                 };
             });
             setFilteredCoins(formattedCoins);
-            // setIsSearch(false);
         }
     }, [coins]);
 
@@ -54,24 +51,15 @@ const HomePage: React.FC = () => {
             );
         }
         else {
-            // setSearch(search);
             setFilteredCoins(filteredCoins);
         }
     };
-    //if filteredCoins is empty, fetch coins from API without limit
-    // useEffect(() => {
-    //     if(filteredCoins.length === 0 && Se){
-    //         fetchCoins(0, 100).then((coins) => {
-    //             setFilteredCoins(coins);
-    //         });
-    //     }
-    // }, [filteredCoins]);
 
     const handleAddToPortfolio = (coin: CoinData) => {
         console.log('add to portfolio', coin);
         setSelectedCoin(coin);
         if (coin){
-            let portfolioCoin: portfolioCoin = {
+            const portfolioCoin: portfolioCoin = {
                 ...coin,
                 amount: 1,
                 priceUsd: Number.parseFloat(coin.priceUsd)
@@ -93,16 +81,15 @@ const HomePage: React.FC = () => {
         setOpenModal(false)
     };
     const handleChange = (value: number) => {
-        let coin: CoinData | null = selectedCoin;
+        const coin: CoinData | null = selectedCoin;
         if (coin && value > 0){
-            let portfolioCoin: portfolioCoin = {
+            const portfolioCoin: portfolioCoin = {
                 ...coin,
                 amount: value,
                 priceUsd: Number.parseFloat(coin.priceUsd)
             };
             setPortfolioCoin(portfolioCoin)
         }
-        // setSelectedCoin(null)
         }
 
     async function fetchPageCoins(page: number) {

@@ -1,23 +1,14 @@
-import React, { useState , useRef} from 'react';
+import React, { useState} from 'react';
 import {Pagination, Table} from 'antd';
-// import { ColumnsType } from 'antd/es/table/interface';
-import {CoinData, CoinTableProps, portfolioCoin, InputRef, ColumnsType, PaginationProps} from '../../utils/types'
+import {CoinData, CoinTableProps, ColumnsType} from '../../utils/types'
 import Button from '../Button/Button';
-import { SearchOutlined } from '@ant-design/icons';
-import {  Space } from 'antd';
-import  { FilterDropdownProps } from 'antd/es/table/interface';
-import '../../styles/Table.css';
+import './Table.css';
 import InputText from "../Inputs/InputText";
 import ImageWithLoader from "../Image/Image";
 const CoinTable: React.FC<CoinTableProps> = ({ coins, onAddToPortfolio, handleFilter, fetchPageCoins}) => {
 
     const handleRowClick = (record: CoinData) => {
-        // Выполните здесь нужные действия при нажатии на строку
-        console.log('Нажата строка:', record);
-        //go to url with coin details
         window.location.href = `/${record.id}`;
-
-
     };
     const [imageLoaded, setImageLoaded] = useState<boolean>(false);
     const ImageLoaded = ( ) => {
@@ -33,19 +24,14 @@ const CoinTable: React.FC<CoinTableProps> = ({ coins, onAddToPortfolio, handleFi
     ];
 
     function InputChange( value: string) {
-        //find coin by name which include value
         console.log('value', value);
         handleFilter(value);
-        // const filteredCoins = coins.filter(coin => coin.symbol.toLowerCase().includes(value.toLowerCase()));
-        // console.log('filteredCoins', filteredCoins);
-        // set(filteredCoins);
+    
     }
-    //watch for pagination page change
     const handlePageChange = (page: number) => {
         console.log('page: ' +page.toString())
         fetchPageCoins(page);
     };
-    //create Pagination
 
     return <>
         <InputText placeholder="Поиск" onChange={InputChange} />

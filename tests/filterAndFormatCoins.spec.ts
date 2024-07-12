@@ -14,7 +14,7 @@ test.describe('HomePage Component', ()=>{
             {name: 'Ethereum', priceUsd: 3000, marketCapUsd: 500000, changePercent24Hr: 0.2},
             {name: 'Ripple', priceUsd: 1, marketCapUsd: 100000, changePercent24Hr: 0.3}
         ];
-        await page.evaluate((handleFilter:any) => localStorage.setItem('coins', JSON.stringify(coins)), coins);
+        await page.evaluate((handleFilter: (coins: CoinData[]) => void) => localStorage.setItem('coins', JSON.stringify(coins)), coins);
 
         await page.goto('http://localhost:3000');
 

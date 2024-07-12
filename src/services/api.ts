@@ -13,10 +13,6 @@ export const fetchCoins : (offset: number, limit:number) => Promise<CoinData[]> 
         try{
             logo = await fetch(url);
             console.log('logo: '+logo);
-            //check if response is ok
-            // if(!logo.ok){
-            //     throw new Error('Logo not found');
-            // }
         }
         catch (e) {
             console.error(e);
@@ -31,7 +27,7 @@ export const fetchCoins : (offset: number, limit:number) => Promise<CoinData[]> 
         const reader = new FileReader();
         reader.readAsDataURL(logoFile);
         //wrap into Promise
-        const dataPromise:Promise<CoinData> = new Promise((resolve, reject) => {
+        const dataPromise:Promise<CoinData> = new Promise((resolve) => {
             reader.onload = () => {
                 console.log('coin: '+reader.result);
             resolve({
@@ -57,26 +53,6 @@ export const fetchCoins : (offset: number, limit:number) => Promise<CoinData[]> 
     })
     console.log('coins: '+coins);
     return Promise.all(coins);
-
-        // {
-    //     id: coin.id,
-    //     symbol: coin.symbol,
-    //     priceUsd: +coin.priceUsd,
-    //     logoUrl: `https://assets.coincap.io/assets/icons/${coin.symbol.toLowerCase()}@2x.png`,
-    //     marketCapUsd: +coin.marketCapUsd,
-    //     volumeUsd24Hr: +coin.volumeUsd24Hr,
-    //     changePercent24Hr: +coin.changePercent24Hr,
-    //     vwap24Hr: +coin.vwap24Hr,
-    //     supply: +coin.supply,
-    //     maxSupply: +coin.maxSupply,
-    //     explorer: coin.explorer,
-    //     name: coin.name,
-    //     rank: +coin.rank,
-    //
-    // }));
-    // //delete invalid coins with undefined price or marketCap or volume or changePercent  or vwap24Hr or supply or maxSupply or explorer or name or rank
-    // return coins.filter((coin: CoinData) => coin.priceUsd && coin.marketCapUsd && coin.volumeUsd24Hr && coin.changePercent24Hr && coin.vwap24Hr  && coin.name && coin.rank);
-
 }
 export const fetchCoinDetails : (id: string) => Promise<CoinData> = async (id: string): Promise<CoinData> => {
     const response = await fetch(`${API_URL}/assets/${id}`);
@@ -100,7 +76,7 @@ export const fetchCoinDetails : (id: string) => Promise<CoinData> = async (id: s
     const reader = new FileReader();
     reader.readAsDataURL(logoFile);
     //wrap into Promise
-    const dataPromise:Promise<CoinData> = new Promise((resolve, reject) => {
+    const dataPromise:Promise<CoinData> = new Promise((resolve) => {
         reader.onload = () => {
             resolve({
                 id: data.id,
@@ -120,23 +96,7 @@ export const fetchCoinDetails : (id: string) => Promise<CoinData> = async (id: s
             });
         }
     });
-    // console.log(logoFile);
-    // return {
-    //     id: data.id,
-    //     symbol: data.symbol,
-    //     priceUsd: data.priceUsd,
-    //     marketCapUsd: data.marketCapUsd,
-    //     volumeUsd24Hr: data.volumeUsd24Hr,
-    //     changePercent24Hr: data.changePercent24Hr,
-    //     vwap24Hr: data.vwap24Hr,
-    //     logoUrl: `https://cryptologos.cc/logos/${data.id}-${data.symbol.toLowerCase()}-logo.png`,
-    //     supply: data.supply,
-    //     maxSupply: data.maxSupply,
-    //     explorer: data.explorer,
-    //     name: data.name,
-    //     rank: data.rank,
-    //     logoFile: logoFile,
-    // };
+    
     return dataPromise;
 }
 export const fetchCoinHistory : (id: string, interval: string) => Promise<CoinHistory[]> = async (id: string, interval): Promise<CoinHistory[]> => {
@@ -203,5 +163,4 @@ export const fetchPortfolioValue : (portfolio: portfolioCoin[]) => Promise<numbe
         return acc + coin.amount * priceUsd;
     } , 0);
     return sum;
-    // return data.reduce((total: number, coin: any) => total + +coin.priceUsd, 0);
 }

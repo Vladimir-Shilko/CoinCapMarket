@@ -1,25 +1,19 @@
-// import { useRouter } from 'next/router';
-import React, {useEffect} from "react";
+
+import React from "react";
 import { useQuery } from 'react-query';
 import { fetchCoinDetails } from '../services/api';
 import { CoinData, portfolioCoin } from '../utils/types';
 import { useParams } from 'react-router-dom';
-// import PriceChart from '../Components/PriceChart/PriceChart';
 import Loader from '../Components/Loader/Loader';
 import ErrorMessage from '../Components/ErrorMessage/ErrorMessage';
 import PriceChart from '../Components/PriceChart/PriceChart';
-
 import Button from "../Components/Button/Button";
 import Input from "../Components/Inputs/InputNumber";
 import Modal from "../Components/Modal/Modal";
-import {Select} from "antd";
-import {Simulate} from "react-dom/test-utils";
-import change = Simulate.change;
+import ErrorBoundary from "../Components/ErrorBoundary/ErrorBoundary";
 
 const CoinDetailPage: React.FC = () => {
-    // const router = useRouter();
-    // const { symbol } = router.query;
-    // const symbol: string = 'bitcoin'
+
     const { symbol } = useParams();
     const { data: coin, isLoading, error } = useQuery<CoinData>(['coin', symbol], () => fetchCoinDetails(symbol as string), {
         enabled: !!symbol,
@@ -78,8 +72,9 @@ const CoinDetailPage: React.FC = () => {
                 <option value="12">12 месяцев</option>
                 {/*<option value="24">24 месяца</option>*/}
             </select>
-            {/*<Button onClick={()=> se}>Reload</Button>*/}
+            <ErrorBoundary message="При загрузке графика произошла неизвестная ошибка...">
             <PriceChart symbol={symbol as string} interval={interval}/>
+            </ErrorBoundary>
             <Modal open={openModal} onConfirm={handleBuy} onClose={()=>onClose()}>
                 <h2>Добавить в портфель</h2>
                 {coin && <p>{coin.name}</p>}

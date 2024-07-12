@@ -1,7 +1,7 @@
 //modal component with modal from antd
 import React from 'react';
 import { Modal } from 'antd';
-import {CoinData, ModalProps, portfolioCoin} from "../../utils/types";
+import { ModalProps} from "../../utils/types";
 
 const CustomModal: React.FC<ModalProps> = ({ open, onClose, onConfirm, title, children }) => {
     function handleCancel() {

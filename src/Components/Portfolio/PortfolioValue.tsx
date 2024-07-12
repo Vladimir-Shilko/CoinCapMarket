@@ -1,9 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {useQuery} from "react-query";
-//import css file
-import '../../styles/portfolio.css';
+import './portfolio.css';
 import {fetchPortfolioValue} from "../../services/api";
-import {CoinData, portfolioCoin} from "../../utils/types";
+import { portfolioCoin} from "../../utils/types";
 import Modal from '../Modal/Modal'
 import Button from "../Button/Button";
 
@@ -11,31 +10,20 @@ const PortfolioValue: React.FC = () => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [diff, setDiff] = useState<number>(0.00);
     const [percentageChange, setPercentageChange] = useState<string>('0.00');
-    // const [portfolioValue, setPortfolioValue] = useState<number>(0.00);
-    let portfolio : portfolioCoin[] = JSON.parse(localStorage.getItem('portfolio') || '[]');
-
+    const portfolio : portfolioCoin[] = JSON.parse(localStorage.getItem('portfolio') || '[]');
     console.log('portfoliodd: '+portfolio);
-    //fix problem with parsing when portfolio is [Object object], [Object object] instead of array
-
-
     let portfolioValue = 0.00;
-    //if portfolio is empty, set value to 0
     if(portfolio.length === 0){
         portfolioValue = 0.00;
     }
     else {
         portfolioValue = Number.parseFloat(portfolio.reduce((acc: number, coin: portfolioCoin) => acc + coin.amount * coin.priceUsd, 0).toFixed(2));
-        // setPortfolioValue(_portfolioValue);
     }
     const substract = (a: number, b: number) => a - b;
-    //get substract betweean portfolioValue and current value of coins from API
-    //get actual value of coins from API which is stored in localStorage
     console.log('portfolio2: '+portfolio.length);
     const { data, isLoading } = useQuery<number>('portfolioValue', () => fetchPortfolioValue(portfolio), {
         enabled: !!portfolio.length,
     });
-
-    //when data is loaded, calculate difference between portfolioValue and current value of coins
     useEffect(() => {
             console.log('data: '+data);
             const actualValue : number | undefined = data;
@@ -52,7 +40,6 @@ const PortfolioValue: React.FC = () => {
             setPercentageChange(percentageChange);
         }
         , [data]);
-
 
     const handleClick = () => {
         setIsModalVisible(true);
@@ -85,7 +72,6 @@ const PortfolioValue: React.FC = () => {
                             <td>{coin.priceUsd}</td>
                             <td>
                                 <Button onClick={() => {
-                                    //delete coin from portfolio
                                     const newPortfolio: portfolioCoin[] = portfolio.filter((c: portfolioCoin) => c.uniqueId !== coin.uniqueId);
                                     localStorage.setItem('portfolio', JSON.stringify(newPortfolio));
                                     window.location.reload();
@@ -96,21 +82,6 @@ const PortfolioValue: React.FC = () => {
                     </tbody>
                 </table>
             </Modal>
-
-            {/*<Modal title="Портфель"  open={isModalVisible} onCancel={handleCancel} onOk={handleCancel}>*/}
-            {/*    <ul>*/}
-            {/*        {portfolio.map((coin: portfolioCoin ) => (*/}
-            {/*            <li key={coin.symbol}>{coin.symbol}: {coin.amount} монет, купленных по цене {coin.priceUsd}*/}
-            {/*                <button onClick={() => {*/}
-            {/*                    //delete coin from portfolio*/}
-            {/*                    const newPortfolio : portfolioCoin[] = portfolio.filter((c: portfolioCoin) => c.uniqueId !== coin.uniqueId);*/}
-            {/*                    localStorage.setItem('portfolio', JSON.stringify(newPortfolio));*/}
-            {/*                    window.location.reload();*/}
-            {/*                }}>Удалить</button>*/}
-            {/*            </li>*/}
-            {/*        ))}*/}
-            {/*    </ul>*/}
-            {/*</Modal>*/}
         </>
     );
 };

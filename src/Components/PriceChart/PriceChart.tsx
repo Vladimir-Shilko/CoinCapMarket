@@ -1,35 +1,26 @@
 import React, {useEffect, useRef} from "react";
-//create a line chart
-// import { Chart as ChartJS } from "react-chartjs-2";
-// ArcElement, Tooltip, Legend
-import { Line } from "react-chartjs-2";
-import { useQuery } from "react-query";
 import { fetchCoinHistory } from "../../services/api";
-import { CoinHistory, PriceChartProps } from "../../utils/types";
-import Loader from "../Loader/Loader";
-import ErrorMessage from "../ErrorMessage/ErrorMessage";
+import { PriceChartProps } from "../../utils/types";
+// import Loader from "../Loader/Loader";
+// import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
 //register category scale
 import { registerables, Chart as ChartJS } from 'chart.js';
 ChartJS.register(...registerables);
 
-
-
 const PriceChart: React.FC<PriceChartProps> = ({ symbol , interval}) => {
-    // const { data, isLoading, error } = useQuery<CoinHistory[]>(['coinHistory', symbol], () => fetchCoinHistory(symbol, interval), {
-    //     enabled: !!symbol,
-    // });
-    const chartRef = useRef<any>(null);
+    //while fetching data show loader component and if error occurs show error message component
+    const [isLoading, setIsLoading] = React.useState<boolean>(true);
+    const chartRef = useRef<ChartJS<"line", string[], string> | null>(null);
     useEffect(() => {
-        console.log('daddad')
-        let chart: any
+        console.log('change chart')
+        let chart: ChartJS<"line", string[], string>
         if(!interval || interval==='')
         {
             interval='1'
         }
         console.log(symbol+' '+interval)
-        //fetch new data
         fetchCoinHistory(symbol, interval).then(
             (data) => {
                 console.log(data);
@@ -52,43 +43,18 @@ const PriceChart: React.FC<PriceChartProps> = ({ symbol , interval}) => {
                     },
                 });
                 chartRef.current = chart;
+                setIsLoading(false);
             }
 
         );
-
-        // return () => {
-        //     try {
-        //         if (chartRef.current) {
-        //             chartRef.current.destroy();
-        //         }
-        //     }
-        //     catch (e){}
-        // }
     },[interval]);
-    // if (isLoading) return <Loader />;
-    // if (error) return <ErrorMessage message="Ошибка загрузки данных" />;
-    // // if(!data) return null;
-    // const chartData = {
-    //     labels: data?.map(item => format(new Date(item.time), 'dd MMM yyyy HH:mm', {locale: ru})),
-    //     datasets: [
-    //         {
-    //             label: 'Цена (USD)',
-    //             data: data?.map(item => item.priceUsd),
-    //             fill: false,
-    //             backgroundColor: 'rgba(75,192,192,0.4)',
-    //             borderColor: 'rgba(75,192,192,1)',
-    //         },
-    //     ],
-    // };
-
+    
     return (
         <div >
-            {/*{interval ?*/}
-            {/*    (<Loader />) : (*/}
+            {isLoading ? (
+                <p>Loading...</p>
+            ) : null}
                     <canvas id="myChart" width="400" height="400"></canvas>
-            {/*    )*/}
-            {/*}*/}
-            {/*<Chart.Line data={chartData} />*/}
         </div>
     );
 };

@@ -69,7 +69,7 @@ export interface ColumnsType<T> {
     title: string;
     dataIndex?: keyof T;
     key: string;
-    render?: (text: any, record: T, index: number) => React.ReactNode;
+    render?: (text: string, record: T, index: number) => React.ReactNode;
     defaultSortOrder?: 'ascend' | 'descend';
     sorter?: (a: T, b: T) => number;
     //add sorters
@@ -87,7 +87,7 @@ export interface CoinTableProps {
     fetchPageCoins: (page: number) => void;
 }
 export interface ErrorMessageProps {
-    message: string;
+    message?: string;
 }
 export interface InputNumberProps {
     placeholder?: string;
@@ -95,14 +95,14 @@ export interface InputNumberProps {
     max?: number;
     onChange?: (value: number ) => void;
     onEnter?: () => void;
-    children?: Record<string, any>[];
+    children?: React.ReactNode[];
     type?: string;
 }
 export interface InputTextProps {
     placeholder?: string;
     onChange?: (value: string ) => void;
     onEnter?: () => void;
-    children?: Record<string, any>[];
+    children?: React.ReactNode[];
     type?: string;
 }
 export interface ModalProps {
