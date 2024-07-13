@@ -2,7 +2,7 @@
 import React, {useEffect, useState} from 'react';
 import {InputNumberProps} from '../../utils/types';
 import {usePortfolio} from "../../pages";
-import './Input.css'
+import './Input.scss'
 
 
 const CustomInput: React.FC<InputNumberProps> = ({ placeholder, min, max, onChange }) => {

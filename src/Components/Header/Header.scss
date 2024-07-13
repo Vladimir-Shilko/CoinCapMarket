@@ -1,0 +1,75 @@
+.popularCoin {
+    display: inline;
+    justify-content: center;
+    align-items: center;
+    margin: 0 10px;
+    padding: 5px 5px;
+    border-radius: 5px;
+    background-color: #ffffff;
+    color: #000;
+    font-size: 80%;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s;
+    width: 10%;
+    word-wrap: break-word;
+  
+    &:hover {
+      background-color: #3140a1;
+      color: #ffffff;
+    }
+  
+    @media (max-width: 768px) {
+      margin: 0 2px;
+      padding: 3px 3px;
+      font-size: 70%;
+    }
+  }
+  
+.header {
+    display: block;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 20px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: auto;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+  
+    @media (max-width: 768px) {
+      .logo {
+        font-size: 50%;
+  
+        img {
+          width: 25px;
+          height: 25px;
+        }
+      }
+    }
+  
+    @media (max-width: 476px) {
+      .logo {
+        font-size: 16px;
+      }
+      img {
+        width: 0px;
+        height: 0px;
+      }
+    }
+  
+    @media (max-width: 420px) {
+      div {
+        font-size: 8px;
+      }
+    }
+  
+    @media (max-width: 360px) {
+      div {
+        font-size: 6px;
+      }
+    }
+}

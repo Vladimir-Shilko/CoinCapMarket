@@ -2,7 +2,7 @@ import React, { useState} from 'react';
 import {Pagination, Table} from 'antd';
 import {CoinData, CoinTableProps, ColumnsType} from '../../utils/types'
 import Button from '../Button/Button';
-import './Table.css';
+import './CoinTable.scss'
 import InputText from "../Inputs/InputText";
 import ImageWithLoader from "../Image/Image";
 const CoinTable: React.FC<CoinTableProps> = ({ coins, onAddToPortfolio, handleFilter, fetchPageCoins}) => {

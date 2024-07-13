@@ -1,0 +1,39 @@
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 auto;
+}
+@media (max-width: 768px) {
+  .table {
+    width: 100%;
+    margin: 0 0;
+    font-size: 60%;
+    overflow: auto;
+  }
+}
+@media (max-width: 590px) {
+  .table {
+    width: 100%;
+    margin: 0 0;
+    font-size: 50%;
+    overflow: auto;
+  }
+}
+
+.pagination {
+  font-size: 120%;
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+  padding-bottom: 10px;
+}
+@media (max-width: 768px) {
+  .pagination {
+    font-size: 120%;
+  }
+}
+@media (max-width: 590px) {
+  .pagination {
+    font-size: 120%;
+  }
+}

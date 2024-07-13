@@ -1,0 +1,24 @@
+$circle-size: 20px;
+.loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  
+    .circle {
+      width: $circle-size;
+      height: $circle-size;
+      background-color: #333;
+      justify-content: center;
+      border-radius: 50%;
+      margin: 0 5px;
+      animation: circle 0.9s infinite alternate;
+    }
+  
+    @keyframes circle {
+      to {
+        transform: translateY(-20px);
+        background-color: #fff;
+      }
+    }
+  }

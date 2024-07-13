@@ -2,9 +2,8 @@
 h1 {
   font-size: 2em;
   color: #000;
-}
-@media (max-width: 768px) {
-  h1 {
+
+  @media (max-width: 768px) {
     font-size: 1em;
   }
 }

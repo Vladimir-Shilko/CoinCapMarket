@@ -1,0 +1,38 @@
+$table-width: 100%;
+$table-font-size: 60%;
+
+.table {
+  width: $table-width;
+  border-collapse: collapse;
+  margin: 0 auto;
+
+  @media (max-width: 768px) {
+    width: $table-width;
+    margin: 0 0;
+    font-size:$table-font-size;
+    overflow: auto;
+  }
+
+  @media (max-width: 590px) {
+    width: $table-width;
+    margin: 0 0;
+    font-size: 50%;
+    overflow: auto;
+  }
+}
+
+.pagination {
+  font-size: $table-font-size*2;
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+  padding-bottom: 10px;
+
+  @media (max-width: 768px) {
+    font-size:  $table-font-size*2;
+  }
+
+  @media (max-width: 590px) {
+    font-size:  $table-font-size*2;
+  }
+}

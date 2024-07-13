@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useQuery} from "react-query";
-import './portfolio.css';
+import './portfolio.scss';
 import {fetchPortfolioValue} from "../../services/api";
 import { portfolioCoin} from "../../utils/types";
 import Modal from '../Modal/Modal'

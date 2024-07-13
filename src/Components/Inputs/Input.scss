@@ -1,0 +1,20 @@
+$input-width: 100%;
+$input-padding: 4px 10px;
+$input-margin: 4px 0;
+$input-border: 1px solid #ccc;
+$input-box-sizing: border-box;
+$input-font-size: 1.5em;
+
+.input {
+  width: $input-width;
+  padding: $input-padding;
+  margin: $input-margin;
+  display: inline-block;
+  border: $input-border;
+  box-sizing: $input-box-sizing;
+  font-size: $input-font-size;
+
+  &:focus {
+    background-color: #f2f2f2;
+  }
+}

@@ -5,7 +5,7 @@ import PortfolioValue from "../Portfolio/PortfolioValue";
 import Loader from "../Loader/Loader";
 import {CoinData} from "../../utils/types";
 import { Layout } from 'antd';
-import './Header.css';
+import './Header.scss';
 const { Header } = Layout;
 const HeaderMenu: React.FC = () => {
     const { data:coinPrices , isLoading } = useQuery('3coinPrices', fetch3CoinPrices);

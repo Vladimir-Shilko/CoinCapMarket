@@ -1,4 +1,3 @@
-
 .input {
   width: 100%;
   padding: 4px 10px;
@@ -6,8 +5,7 @@
   display: inline-block;
   border: 1px solid #ccc;
   box-sizing: border-box;
-  /*//bigger font size*/
-    font-size: 1.5em;
+  font-size: 1.5em;
 }
 .input:focus {
   background-color: #f2f2f2;

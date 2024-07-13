@@ -1,5 +1,5 @@
 import React from "react";
-import './Input.css'
+import './Input.scss'
 import {InputTextProps} from "../../utils/types";
 
 const CustomInput: React.FC<InputTextProps> = ({ placeholder,  onChange }) => {
