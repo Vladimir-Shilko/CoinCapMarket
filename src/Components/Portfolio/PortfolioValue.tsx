@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {useQuery} from "react-query";
 import './portfolio.scss';
 import {fetchPortfolioValue} from "../../services/api";
@@ -10,44 +10,53 @@ const PortfolioValue: React.FC = () => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [diff, setDiff] = useState<number>(0.00);
     const [percentageChange, setPercentageChange] = useState<string>('0.00');
-    const portfolio : portfolioCoin[] = JSON.parse(localStorage.getItem('portfolio') || '[]');
-    console.log('portfoliodd: '+portfolio);
-    let portfolioValue = 0.00;
-    if(portfolio.length === 0){
-        portfolioValue = 0.00;
-    }
-    else {
-        portfolioValue = Number.parseFloat(portfolio.reduce((acc: number, coin: portfolioCoin) => acc + coin.amount * coin.priceUsd, 0).toFixed(2));
-    }
-    const substract = (a: number, b: number) => a - b;
-    console.log('portfolio2: '+portfolio.length);
+
+    const portfolio : portfolioCoin[] = useMemo(() => {
+        return JSON.parse(localStorage.getItem('portfolio') || '[]');
+    }, [isModalVisible]);
+
+    const calculatePortfolioValue = useCallback(() => {
+        if(portfolio.length === 0){
+            return 0.00;
+        }
+        return Number.parseFloat(portfolio.reduce((acc: number, coin: portfolioCoin) => acc + coin.amount * coin.priceUsd, 0).toFixed(2));
+    }, [portfolio]);
+
+    const portfolioValue = useMemo(() => calculatePortfolioValue(), [calculatePortfolioValue]);
+
+    const substract = useCallback((a: number, b: number) => a - b, []);
+
     const { data, isLoading } = useQuery<number>('portfolioValue', () => fetchPortfolioValue(portfolio), {
         enabled: !!portfolio.length,
     });
+
     useEffect(() => {
-            console.log('data: '+data);
-            const actualValue : number | undefined = data;
-            let diff = 0.00;
-            let percentageChange: string = '0.00';
-            console.log('act '+actualValue)
-            if(actualValue !== undefined && actualValue !== null ){
-                diff = Number.parseFloat(substract(actualValue, portfolioValue).toFixed(2))
-                percentageChange = (diff / portfolioValue * 100).toFixed(2);
-            }
-            console.log("d "+diff)
-            console.log('p '+percentageChange)
+        if(data !== undefined && data !== null ){
+            const actualValue : number = data;
+            const diff = Number.parseFloat(substract(actualValue, portfolioValue).toFixed(2));
+            const percentageChange = (diff / portfolioValue * 100).toFixed(2);
             setDiff(diff);
             setPercentageChange(percentageChange);
+        } else {
+            setDiff(0.00);
+            setPercentageChange('0.00');
         }
-        , [data]);
+    }, [data, substract, portfolioValue]);
 
-    const handleClick = () => {
+    const handleClick = useCallback(() => {
         setIsModalVisible(true);
-    };
+    }, []);
 
-    const handleCancel = () => {
+    const handleCancel = useCallback(() => {
         setIsModalVisible(false);
-    };
+    }, []);
+
+    const handleDelete = useCallback((uniqueId: string | undefined) => {
+        const newPortfolio: portfolioCoin[] = portfolio.filter((c: portfolioCoin) => c.uniqueId !== uniqueId);
+        localStorage.setItem('portfolio', JSON.stringify(newPortfolio));
+        window.location.reload();
+    }, [portfolio]);
+    
 
     return (
         <>
@@ -71,11 +80,7 @@ const PortfolioValue: React.FC = () => {
                             <td>{coin.amount}</td>
                             <td>{coin.priceUsd}</td>
                             <td>
-                                <Button onClick={() => {
-                                    const newPortfolio: portfolioCoin[] = portfolio.filter((c: portfolioCoin) => c.uniqueId !== coin.uniqueId);
-                                    localStorage.setItem('portfolio', JSON.stringify(newPortfolio));
-                                    window.location.reload();
-                                }}>Удалить</Button>
+                                <Button onClick={() => handleDelete(coin.uniqueId)}>Удалить</Button>
                             </td>
                         </tr>
                     ))}
